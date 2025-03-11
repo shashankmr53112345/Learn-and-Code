@@ -1,23 +1,20 @@
 package LearnAndCodeAssignment_Week1;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class GettingNeighbouringCountries {
-	public static String getNeighboringCountries(String countryCode) {
-        switch (countryCode) {
-            case "IN":
-                return "Pakistan, China, Nepal, Bangladesh, Bhutan, Myanmar, Sri Lanka";
-            case "US":
-                return "Canada, Mexico";
-            case "NZ":
-                return "Australia";
-            case "CH":
-                return "India, Russia, Mongolia, Nepal, Pakistan, Kazakhstan, Myanmar, Vietnam";
-            case "FR":
-                return "Germany, Spain, Belgium, Italy, Switzerland, Luxembourg";
-            default:
-                return null;
-        }
+    
+    private static final Map<String, String> COUNTRY_NEIGHBORS = Map.of(
+        "IN", "Pakistan, China, Nepal, Bangladesh, Bhutan, Myanmar, Sri Lanka",
+        "US", "Canada, Mexico",
+        "NZ", "Australia",
+        "CH", "India, Russia, Mongolia, Nepal, Pakistan, Kazakhstan, Myanmar, Vietnam",
+        "FR", "Germany, Spain, Belgium, Italy, Switzerland, Luxembourg"
+    );
+
+    public static String getNeighboringCountries(String countryCode) {
+        return COUNTRY_NEIGHBORS.getOrDefault(countryCode, null);
     }
 
     public static void main(String[] args) {
@@ -31,21 +28,20 @@ public class GettingNeighbouringCountries {
             System.out.print("Enter Country Code: ");
             String countryCode = scanner.nextLine().toUpperCase();
 
-            if (countryCode.equals("EXIT")) {
-                System.out.println("\nThank you ");
+            if ("EXIT".equals(countryCode)) {
+                System.out.println("\nThank you!");
                 break;
             }
+
             String neighbors = getNeighboringCountries(countryCode);
-            
+
             if (neighbors != null) {
                 System.out.println("Neighboring Countries for '" + countryCode + "': " + neighbors);
-            } 
-            else {
+            } else {
                 System.out.println("Invalid country code. Please try again.");
             }
         }
 
         scanner.close();
     }
-
 }

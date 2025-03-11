@@ -1,68 +1,53 @@
+package LearnAndCodeAssignmenr_Week2;
 
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class NumberGuessingGame {
 
-    public static void main(String[] args) {
-        NumberGuessingGame game = new NumberGuessingGame();
-        game.startGame();
-    }
+	private static final int MIN_NUMBER = 1;
+	private static final int MAX_NUMBER = 100;
 
+	public static boolean isGuessValid(String guessInput) {
+		try {
+			int guess = Integer.parseInt(guessInput);
+			return guess >= MIN_NUMBER && guess <= MAX_NUMBER;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 
-    public void startGame() {
-        int targetNumber = generateRandomNumber();
-        int numberOfGuesses = 0;
-        boolean hasGuessedCorrectly = false;
+	public static void main(String[] args) {
+		Random random = new Random();
+		int randomNumber = random.nextInt(MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER;
+		boolean isNumberGuessed = false;
+		int attemptCount = 0;
+		Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to the Number Guessing Game!");
-        System.out.println("Try to guess the number between 1 and 100.");
+		System.out.println("Guess a number between " + MIN_NUMBER + " and " + MAX_NUMBER + ".");
 
-        while (!hasGuessedCorrectly) {
-            String userInput = getUserInput();
-            if (!isValidGuess(userInput)) {
-                System.out.println("Invalid input. Please enter a number between 1 and 100.");
-                continue;
-            }
+		while (!isNumberGuessed) {
+			System.out.print("Enter your guess: ");
+			String userGuessInput = scanner.nextLine();
 
-            numberOfGuesses++;
-            int guessedNumber = Integer.parseInt(userInput);
-            hasGuessedCorrectly = checkGuess(guessedNumber, targetNumber, numberOfGuesses);
-        }
-    }
+			if (!isGuessValid(userGuessInput)) {
+				System.out.println(
+						"Invalid input. Please enter a number between " + MIN_NUMBER + " and " + MAX_NUMBER + ".");
+				continue;
+			}
 
+			attemptCount++;
+			int userGuess = Integer.parseInt(userGuessInput);
 
-    private int generateRandomNumber() {
-        Random random = new Random();
-        return random.nextInt(100) + 1;
-    }
-
-    private String getUserInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your guess: ");
-        return scanner.nextLine();
-    }
-
-    private boolean isValidGuess(String guess) {
-        try {
-            int number = Integer.parseInt(guess);
-            return number >= 1 && number <= 100;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private boolean checkGuess(int guessedNumber, int targetNumber, int numberOfGuesses) {
-        if (guessedNumber < targetNumber) {
-            System.out.println("Too low! Try again.");
-            return false;
-        } else if (guessedNumber > targetNumber) {
-            System.out.println("Too high! Try again.");
-            return false;
-        } else {
-            System.out.println("Congratulations! You guessed the number in " + numberOfGuesses + " attempts.");
-            return true;
-        }
-    }
+			if (userGuess < randomNumber) {
+				System.out.println("Too low. Try again.");
+			} else if (userGuess > randomNumber) {
+				System.out.println("Too high. Try again.");
+			} else {
+				System.out.println("Congratulations! You guessed the correct number in " + attemptCount + " attempts.");
+				isNumberGuessed = true;
+			}
+		}
+		scanner.close();
+	}
 }
-
