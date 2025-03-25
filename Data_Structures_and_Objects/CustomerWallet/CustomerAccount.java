@@ -19,12 +19,12 @@ public class CustomerAccount {
         return lastName;
     }
 
-    public boolean processPayment(float amount) {
-        return wallet.withdraw(amount);
+    public boolean processPayment(float amountToWithdraw) {
+        return wallet.withdraw(amountToWithdraw);
     }
 
-    public void depositMoney(float amount) {
-        wallet.deposit(amount);
+    public void depositMoney(float amountToDeposit) {
+        wallet.deposit(amountToDeposit);
     }
 
     public float checkWalletBalance() {
